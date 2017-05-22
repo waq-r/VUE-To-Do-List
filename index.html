@@ -1,0 +1,97 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://unpkg.com/tachyons@4.7.0/css/tachyons.min.css"/>
+
+
+<script type="text/javascript" src="js/vue.js"></script>
+
+<style type="text/css">
+	button[disabled] {
+  cursor: not-allowed;
+  opacity: .5;
+}
+</style>
+</head>
+<body class="flex items-center justify-center vh-100">
+<div id="app-4" class="w-50 left ba b--black-10">
+<div>
+<div class="bg-near-white pa3">
+ <div class="pv2 tc bb b--black-10">
+<h1 class="ma0 f5 normal">Tasks</h1>
+</div>
+<p v-model="taskDone">{{ this.todos.length - totaldone }} out of {{this.todos.length}} done</p>
+</div>
+  <ol>
+    <li v-for="(todo,index) in todos" v-show="todo.taskdone == false">
+    <input type="checkbox" id="checkbox" v-model="todo.taskdone">
+      {{ todo.text }}
+    </li>
+  </ol>
+  <div class="w-90 center ba b--black-10">
+
+    <div class="bg-near-white pa3">
+  <textarea v-model="newtodo" placeholder="Add your new task here" rows="2" class="w-100 br2 ba b--black-10 pa2">></textarea>
+  <div class="mt3 tr">
+  <button :disabled="taskIsEmpty" v-on:click="addTodos" class="button-reset bg-blue bn white f6 fw5 pv2 ph3 br2 dim">Add task</button>
+  </div>
+  </div>
+  </div>
+  </div>
+  <br />
+  <div>
+        <div class="pv2 tc bb b--black-10">
+      <h1 class="ma0 f5 normal">Tasks completed</h1>
+    </div>
+  <ol>
+    <li v-for="todo in todos" v-show="todo.taskdone == true" >
+    <input type="checkbox" id="checkbox" v-model="todo.taskdone">
+      {{ todo.text }}
+    </li>
+  </ol>
+  </div>
+</div>
+
+
+
+</body>
+<script type="text/javascript">
+
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [],
+    newtodo: '',
+    totaldone: ''
+  },
+  methods:{
+    addTodos: function() {
+      console.log('All is working!');
+      this.todos.push({ text: this.newtodo, taskdone: false  });
+      this.newtodo = '';
+      this.totalDone();
+    },
+    totalDone: function(){
+    	this.totaldone = 0;
+    	for (var i = 0; i < this.todos.length; i++){
+    		if (this.todos[i].taskdone == false){
+    			console.log(i);
+    				this.totaldone++;
+    		}
+    		    	}
+    }
+  },
+  
+  computed: {
+  	taskDone: function(){
+    	console.log('all is well');
+    	this.totalDone();
+    	return this.totaldone;
+    },
+    taskIsEmpty: function() {
+      return this.newtodo.length == 0;
+    }
+  }
+});
+
+</script>
+</html>
